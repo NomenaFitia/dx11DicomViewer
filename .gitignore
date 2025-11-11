@@ -1,0 +1,20 @@
+# Fichiers de build
+build/
+bin/
+obj/
+out/
+CMakeFiles/
+vcpkg_installed/
+.vs/
+CMakeCache.txt
+*.o
+*.obj
+*.pdb
+*.exe
+*.dll
+*.lib
+*.so
+*.a
+
+# Logs
+*.log
