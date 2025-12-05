@@ -9,7 +9,7 @@
 #include <wrl/client.h>
 #include <dxgi.h>
 
-// === Constant buffers (row_major côté HLSL) ===
+// === Constant buffers (row_major HLSL) ===
 struct alignas(16) CBFrame { DirectX::XMFLOAT4X4 View; DirectX::XMFLOAT4X4 Proj; float LightDir[3]; float _pad0 = 0; };
 struct alignas(16) CBObject { DirectX::XMFLOAT4X4 World; };
 struct alignas(16) CBMaterial { float BaseColor[3]; float _pad1 = 0; };
@@ -37,7 +37,7 @@ private:
 	int  bbWidth_ = 0, bbHeight_ = 0;
 
 	void safeReleaseBackbufferBindings();
-	void handleDeviceLost(); // recrée device/swapchain/ressources
+	void handleDeviceLost(); // recree device/swapchain/ressources
 	// end check
 
 	ComPtr<ID3D11Device> dev;
@@ -77,7 +77,7 @@ private:
 	Microsoft::WRL::ComPtr<ID2D1SolidColorBrush>dwBrush;
 	Microsoft::WRL::ComPtr<ID2D1Bitmap1>        d2dTarget;   // backbuffer as D2D bitmap
 
-	void createD2DResources();       // init une fois
-	void bindD2DTargetFromSwap();    // (re)crée le bitmap cible à chaque resize
-	void drawOverlay();              // draw “Aide” avant Present
+	void createD2DResources();     
+	void bindD2DTargetFromSwap();    
+	void drawOverlay();              
 };

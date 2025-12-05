@@ -7,7 +7,6 @@ using namespace DirectX;
 
 void App::addMesh(const MeshData& data, const Color3f* color)
 {
-	// Si le device n'est pas prêt, on empile et on fera l'upload après init
 	if (!ready_ || renderer.device() == nullptr) {
 		Pending p{ data, std::nullopt };
 		if (color) p.color = *color;
@@ -19,7 +18,7 @@ void App::addMesh(const MeshData& data, const Color3f* color)
 	inst.mesh = MeshFactory::CreateFrom(renderer.device(), data);
 	inst.mesh.mat.color[0] = color->r; inst.mesh.mat.color[1] = color->g; inst.mesh.mat.color[2] = color->b;
 
-	// World = identité
+	// World = identite
 	scene.add(std::move(inst));
 }
 
@@ -40,7 +39,7 @@ void App::run()
 	wnd.create(L"Dx11MeshViewer", W, H);
 	renderer.initialize(wnd.hwnd(), W, H);
 
-	if (onInitialized) onInitialized();   // <-- device prêt, addMesh() créera les buffers
+	if (onInitialized) onInitialized();   // <-- device pret, addMesh() creation des buffers
 
 	// Camera controls (RMB rotate, MMB pan, wheel zoom)
 	wnd.setOnResize([this](int w, int h) { renderer.resize(w, h); });

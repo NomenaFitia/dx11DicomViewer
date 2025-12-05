@@ -2,8 +2,6 @@
 #include "DxUtil.h"
 #include <string>
 
-// NB: DxUtil.h doit déjà inclure d3d11.h et <wrl/client.h> (ComPtr)
-
 class Shader {
 public:
     struct VS {
@@ -17,7 +15,7 @@ public:
     // Charge un Vertex Shader + InputLayout
     // - path : ex. L"shaders/mesh.hlsl"
     // - layout/count : doit matcher les semantics du VS (POSITION, NORMAL, etc.)
-    // - entry : point d'entrée HLSL (par défaut "VSMain")
+    // - entry : point d'entree HLSL (par dï¿½faut "VSMain")
     static VS LoadVS(ID3D11Device* dev, const std::wstring& path,
         const D3D11_INPUT_ELEMENT_DESC* layout, UINT count,
         const char* entry = "VSMain");

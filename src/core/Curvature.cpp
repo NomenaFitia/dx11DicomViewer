@@ -22,7 +22,7 @@ void RecomputeVertexNormals(MeshData& m)
         uint32_t a = I[t], b = I[t + 1], c = I[t + 2];
         const Vec3f& A = m.positions[a]; const Vec3f& B = m.positions[b]; const Vec3f& C = m.positions[c];
         Vec3f n = cross({ B.x - A.x,B.y - A.y,B.z - A.z }, { C.x - A.x,C.y - A.y,C.z - A.z });
-        // aire ~ |n|/2 ; on accumule la normale pondérée par aire (|n|)
+        // aire ~ |n|/2 ; on accumule la normale pondere par aire (|n|)
         m.normals[a] = { m.normals[a].x + n.x, m.normals[a].y + n.y, m.normals[a].z + n.z };
         m.normals[b] = { m.normals[b].x + n.x, m.normals[b].y + n.y, m.normals[b].z + n.z };
         m.normals[c] = { m.normals[c].x + n.x, m.normals[c].y + n.y, m.normals[c].z + n.z };

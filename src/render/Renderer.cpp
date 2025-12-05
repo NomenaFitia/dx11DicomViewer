@@ -176,7 +176,7 @@ void Renderer::createD2DResources()
     if (FAILED(d2dCtx->CreateSolidColorBrush(D2D1::ColorF(1.f, 1.f, 1.f, 0.95f), &dwBrush)) || !dwBrush)
         return;
 
-    d2dReady = true; // ✅ overlay utilisable
+    d2dReady = true; // overlay utilisable
 }
 
 void Renderer::bindD2DTargetFromSwap()

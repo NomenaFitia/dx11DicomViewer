@@ -45,7 +45,7 @@ static int TestDicomLoader(const std::string& folder)
     }
 }
 
-// Petit utilitaire pour créer un cube 1x1x1 centré (exemple)
+// Petit utilitaire pour creer un cube 1x1x1 centrï¿½ (exemple)
 static MeshData MakeCube()
 {
     MeshData m;
@@ -99,7 +99,7 @@ int WINAPI wWinMain(HINSTANCE, HINSTANCE, PWSTR, int)
 	meshes.push_back(MakeCube());
 	meshes.push_back(MakeCube());
 
-	std::string folder = "C:\\projects\\dcmfiles"; // à adapter
+	std::string folder = "C:\\projects\\dcmfiles";
 	//TestDicomLoader(folder);
 
     try
@@ -107,11 +107,11 @@ int WINAPI wWinMain(HINSTANCE, HINSTANCE, PWSTR, int)
         DICOMLoader loader;
         VolumeData volume = loader.loadFromDirectory(folder);
 
-        // 2) Créer le segmented volume (HU -> labels)
-        SegmentationRules rules;               // seuils par défaut (os/soft/fat)
+        // 2) Crï¿½er le segmented volume (HU -> labels)
+        SegmentationRules rules;               // seuils par dï¿½faut (os/soft/fat)
         LabeledVolume segmentedVolume = SegmentVolumeHU(volume, rules);
 
-        // (optionnel) petit résumé
+        // (optionnel) petit rï¿½sumï¿½
         //std::cout << "Volume : " << volume.width << " x " << volume.height << " x " << volume.depth << "\n";
         //std::cout << "Voxels : " << volume.voxels.size() << "\n";
         //std::cout << "Labels : " << segmentedVolume.labels.size() << "\n";
@@ -137,14 +137,14 @@ int WINAPI wWinMain(HINSTANCE, HINSTANCE, PWSTR, int)
 
         // Exemple d'usage Decimate
         DecimationSettings ds;
-        //ds.factor = 0.0f;           // 0.0 = pas de décimation, 1.0 = agressif
+        //ds.factor = 0.0f;           // 0.0 = pas de dï¿½cimation, 1.0 = agressif
         //ds.protectTopPercent = 0.10f;
         //ds.cellScale = 1.0f;
 
         MeshData skinDecim = DecimateByCurvature(bone, ds);
 
 
-        // Visualiser avant / après (couleurs différentes)
+        // Visualiser avant / aprï¿½s (couleurs diffï¿½rentes)
         Color3f cBefore{ 0.85f, 0.85f, 1.0f };
         Color3f cAfter{ 0.90f, 0.60f, 0.60f };
         //app.addMesh(bone, &cBefore);
@@ -163,22 +163,22 @@ int WINAPI wWinMain(HINSTANCE, HINSTANCE, PWSTR, int)
 
 
 	// Lancer l'app, mais on veut d'abord initialiser les ressources GPU :
-	// On ajoute les meshes après que le device existe, i.e. à l'intérieur de App::run().
-	// Pour concilier simplicité, on crée un App, on le lance, et on injecterait
-	// normalement les données via une API avant la boucle. Ici, on simule cela
-	// en modifiant App pour qu'il expose device() — déjà fait — puis on prépare la scène.
+	// On ajoute les meshes aprï¿½s que le device existe, i.e. ï¿½ l'intï¿½rieur de App::run().
+	// Pour concilier simplicitï¿½, on crï¿½e un App, on le lance, et on injecterait
+	// normalement les donnï¿½es via une API avant la boucle. Ici, on simule cela
+	// en modifiant App pour qu'il expose device() ï¿½ dï¿½jï¿½ fait ï¿½ puis on prï¿½pare la scï¿½ne.
 
 
-	// Au plus simple : on démarre l'app puis on y ajoute les meshes via un callback
-	// — Pour cette démo, on les ajoutera dans App::run() avant la boucle si nécessaire.
+	// Au plus simple : on dï¿½marre l'app puis on y ajoute les meshes via un callback
+	// ï¿½ Pour cette dï¿½mo, on les ajoutera dans App::run() avant la boucle si nï¿½cessaire.
 
 
 	// Variante : on ajoute ici en deux temps en exploitant l'API publique:
-	// (On va démarrer l'app et, pour l'exemple, on pousse les meshes tout de suite après création du device.)
+	// (On va dï¿½marrer l'app et, pour l'exemple, on pousse les meshes tout de suite aprï¿½s crï¿½ation du device.)
 
 
-	// Simplification : on appelle directement run(), et si vous avez déjà vos MeshData,
-	// adaptez App pour les ajouter juste après initialize().
+	// Simplification : on appelle directement run(), et si vous avez dï¿½jï¿½ vos MeshData,
+	// adaptez App pour les ajouter juste apres initialize().
 
     Color3f c0{ 1.0f, 0.9f, 0.95f };
 
@@ -194,8 +194,8 @@ int WINAPI wWinMain(HINSTANCE, HINSTANCE, PWSTR, int)
 
 
 /*
-NB: pour un flux réel, 
+NB: pour un flux reel, 
 exposez une fonction 
 App::loadMeshes(const std::vector<std::pair<MeshData, std::optional<Color3f>>>&) 
-et appelez-la après renderer.initialize(...).
+et appelez-la apres renderer.initialize(...).
 */

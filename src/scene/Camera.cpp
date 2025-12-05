@@ -36,11 +36,10 @@ void OrbitCamera::rebuildProjection()
         XMStoreFloat4x4(&mProj, XMMatrixPerspectiveFovLH(fovY_, aspect_, zn_, zf_));
     }
     else {
-        // Ortho centrée : largeur = hauteur * aspect
         const float w = orthoHeight_ * aspect_;
         const float h = orthoHeight_;
         XMStoreFloat4x4(&mProj, XMMatrixOrthographicLH(w, h, zn_, zf_));
-        // Variante équivalente :
+        // Variante equivalente :
         // XMStoreFloat4x4(&mProj, XMMatrixOrthographicOffCenterLH(-w*0.5f, w*0.5f, -h*0.5f, h*0.5f, zn_, zf_));
     }
 }
@@ -57,7 +56,6 @@ void OrbitCamera::dolly(float d)
         distance = std::clamp(distance * (1.0f - d), 0.1f, 10000.0f);
     }
     else {
-        // En ortho : le "zoom" change l’échelle de la fenêtre de vue
         orthoHeight_ = std::clamp(orthoHeight_ * (1.0f - d), 1e-3f, 1e6f);
         rebuildProjection();
     }

@@ -9,7 +9,6 @@ using namespace std;
 
 namespace core {
 
-    // --- helpers déjà présents dans ton fichier (rappel) ---
     static inline uint32_t idx3D(uint32_t x, uint32_t y, uint32_t z,
         uint32_t W, uint32_t H, uint32_t /*D*/)
     {
@@ -76,7 +75,7 @@ namespace core {
 
         float M[3][3]; loadDir3x3(vol.direction, M);
         const Vec3f sp = vol.spacing;
-        const float vx = gx / sp.x, vy = gy / sp.y, vz = gz / sp.z; // corriger l’échelle
+        const float vx = gx / sp.x, vy = gy / sp.y, vz = gz / sp.z; // echelle
         return {
             M[0][0] * vx + M[0][1] * vy + M[0][2] * vz,
             M[1][0] * vx + M[1][1] * vy + M[1][2] * vz,
@@ -84,7 +83,6 @@ namespace core {
         };
     }
 
-    // ----------------- MARCHING CUBES (corrigé) -----------------
     MeshData marchingcubes(const LabeledVolume& vol, TissueLabel category)
     {
         MeshData mesh;
@@ -160,7 +158,6 @@ namespace core {
                         field((int)x + 1,(int)y + 1,(int)z + 1), field((int)x,(int)y + 1,(int)z + 1)
                     };
 
-                    // cubeIndex selon la convention standard: bit=1 si V[i] < iso (donc “inside catégorie”)
                     int cubeIndex = 0;
                     if (V[0] < isovalue) cubeIndex |= 1;
                     if (V[1] < isovalue) cubeIndex |= 2;

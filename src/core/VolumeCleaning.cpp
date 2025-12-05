@@ -93,7 +93,7 @@ namespace core {
         // On traite uniquement Bone/Soft/Fat
         std::array<TissueLabel, 3> classes = { TissueLabel::Bone, TissueLabel::Soft, TissueLabel::Fat };
 
-        // binaire nettoyé par classe
+        // binaire nettoye par classe
         std::unordered_map<int, std::vector<uint8_t>> cleaned;
         cleaned.reserve(classes.size());
 
@@ -101,7 +101,6 @@ namespace core {
 
         for (auto L : classes)
         {
-            // --- Ouverture (erosion -> dilatation) avec itérations ---
             // Erosion
             ErodeBinaryView(vol, nullptr, L, p.radius, tmpA);
             current = tmpA;
@@ -115,7 +114,6 @@ namespace core {
                 current.swap(tmpB);
             }
 
-            // --- Fermeture (optionnel) => dilatation puis érosion ---
             if (p.do_open_close)
             {
                 for (int it = 0; it < p.iterations; ++it) {
@@ -134,7 +132,6 @@ namespace core {
             tmpB.clear();
         }
 
-        // Recomposition selon priorité (plus prioritaire gagne si voxel disputé)
         std::fill(vol.labels.begin(), vol.labels.end(), (uint8_t)TissueLabel::Background);
         const uint32_t W = vol.width, H = vol.height, D = vol.depth;
         for (auto L : p.priority)

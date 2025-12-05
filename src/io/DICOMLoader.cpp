@@ -3,7 +3,6 @@
 #include <dcmtk/dcmdata/dctk.h>
 #include <dcmtk/dcmdata/dcdeftag.h>
 #include <dcmtk/dcmimgle/dcmimage.h>
-// (optionnel pour séries compressées)
 // #include <dcmtk/dcmjpeg/djdecode.h>
 // #include <dcmtk/dcmdata/dcrledrg.h>
 
@@ -43,11 +42,7 @@ struct SliceMeta {
 
 VolumeData DICOMLoader::loadFromDirectory(const std::string& directoryPath)
 {
-    // (optionnel) à appeler au démarrage de l'appli si besoin des codecs:
-    // DJDecoderRegistration::registerCodecs();
-    // DcmRLEDecoderRegistration::registerCodecs();
 
-    // 1) Liste des fichiers
     std::vector<std::string> files;
     for (const auto& e : fs::directory_iterator(directoryPath)) {
         if (!e.is_regular_file()) continue;
@@ -57,7 +52,6 @@ VolumeData DICOMLoader::loadFromDirectory(const std::string& directoryPath)
     }
     if (files.empty()) throw std::runtime_error("Aucun DICOM dans: " + directoryPath);
 
-    // 2) 1ère passe: géométrie + meta
     OFVector<double> refIOP, refIPP;
     uint16_t rows = 0, cols = 0;
     double pxRow = 1.0, pxCol = 1.0;
@@ -76,7 +70,7 @@ VolumeData DICOMLoader::loadFromDirectory(const std::string& directoryPath)
         OFString sUID;
         if (ds->findAndGetOFString(DCM_SeriesInstanceUID, sUID).good()) {
             if (seriesUID.empty()) seriesUID = sUID.c_str();
-            else if (seriesUID != sUID.c_str()) continue; // ignorer autres séries
+            else if (seriesUID != sUID.c_str()) continue; // ignorer autres sï¿½ries
         }
 
         OFString iopS, ippS;
@@ -110,12 +104,10 @@ VolumeData DICOMLoader::loadFromDirectory(const std::string& directoryPath)
     }
     if (slices.empty()) throw std::runtime_error("Aucun slice DICOM exploitable.");
 
-    // 3) Tri
     std::stable_sort(slices.begin(), slices.end(), [](const SliceMeta& a, const SliceMeta& b) {
         if (a.key == b.key) return a.inst < b.inst; return a.key < b.key;
         });
 
-    // 4) Dimensions via 1ère image (pour robustesse)
     DicomImage firstImg(slices.front().path.c_str());
     if (firstImg.getStatus() != EIS_Normal || !firstImg.isMonochrome())
         throw std::runtime_error("1ere image illisible ou non monochrome: " + slices.front().path);
@@ -124,7 +116,6 @@ VolumeData DICOMLoader::loadFromDirectory(const std::string& directoryPath)
     const uint32_t depth = (uint32_t)slices.size();
     if (!width || !height || !depth) throw std::runtime_error("Dimensions nulles.");
 
-    // 5) VolumeData (géométrie)
     VolumeData vol;
     vol.width = width; vol.height = height; vol.depth = depth;
     vol.spacing = { (float)pxCol, (float)pxRow, 1.f };
@@ -148,12 +139,9 @@ VolumeData DICOMLoader::loadFromDirectory(const std::string& directoryPath)
         }
     }
 
-    // 6) Allouer HU
-    // 6) Allouer HU
     vol.voxels.resize((size_t)width * height * depth);
     const size_t sliceCount = (size_t)width * height;
 
-    // 7) Pixels -> HU (par slice)
     for (size_t z = 0; z < slices.size(); ++z) {
         DcmFileFormat ff;
         if (ff.loadFile(slices[z].path.c_str()).bad())
@@ -161,19 +149,16 @@ VolumeData DICOMLoader::loadFromDirectory(const std::string& directoryPath)
         DcmDataset* ds = ff.getDataset();
         if (!ds) throw std::runtime_error("Dataset nul: " + slices[z].path);
 
-        // Vérif dimensions par slice
         Uint16 R = 0, C = 0;
         if (ds->findAndGetUint16(DCM_Rows, R).bad() || ds->findAndGetUint16(DCM_Columns, C).bad())
             throw std::runtime_error("Rows/Cols manquants: " + slices[z].path);
         if (R != height || C != width)
-            throw std::runtime_error("Incohérence Rows/Cols: " + slices[z].path);
+            throw std::runtime_error("Incohï¿½rence Rows/Cols: " + slices[z].path);
 
-        // Meta par slice
         const double slope = slices[z].slope;
         const double intercept = slices[z].intercept;
         const bool   isSigned = (slices[z].pixelRep != 0);
 
-        // PixelData
         DcmElement* el = nullptr;
         if (ds->findAndGetElement(DCM_PixelData, el).bad() || !el)
             throw std::runtime_error("PixelData manquant: " + slices[z].path);
@@ -188,7 +173,7 @@ VolumeData DICOMLoader::loadFromDirectory(const std::string& directoryPath)
 
             const size_t byteLen = el->getLength();          // longueur en octets
             if (byteLen < sliceCount)
-                throw std::runtime_error("Taille PixelData 8b incohérente: " + slices[z].path);
+                throw std::runtime_error("Taille PixelData 8b incohï¿½rente: " + slices[z].path);
 
             if (isSigned) { // int8_t
                 const int8_t* s8 = reinterpret_cast<const int8_t*>(p8);
@@ -201,14 +186,14 @@ VolumeData DICOMLoader::loadFromDirectory(const std::string& directoryPath)
             }
         }
         else {
-            // ---- 16 bits ---- (cas CT typique, BitsStored peut être 12/15… packé sur 16)
+            // ---- 16 bits ---- 
             Uint16* p16 = nullptr;                           // <-- SANS const
             if (el->getUint16Array(p16).bad() || !p16)
                 throw std::runtime_error("Pixels 16b indisponibles (codec?): " + slices[z].path);
 
             const size_t numVals = el->getLength() / sizeof(Uint16);
             if (numVals < sliceCount)
-                throw std::runtime_error("Taille PixelData 16b incohérente: " + slices[z].path);
+                throw std::runtime_error("Taille PixelData 16b incohï¿½rente: " + slices[z].path);
 
             if (isSigned) { // int16_t
                 const int16_t* s16 = reinterpret_cast<const int16_t*>(p16);

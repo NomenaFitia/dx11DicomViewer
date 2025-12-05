@@ -22,7 +22,7 @@ LabeledVolume SegmentVolumeHU(const VolumeData& v, const SegmentationRules& rule
     out.labels.resize(N, (uint8_t)TissueLabel::Background);
 
     for (size_t i = 0; i < N; ++i) {
-        out.labels[i] = (uint8_t)ClassifyHU(v.voxels[i], rules); // HU déjà dans voxels
+        out.labels[i] = (uint8_t)ClassifyHU(v.voxels[i], rules);
     }
     return out;
 }

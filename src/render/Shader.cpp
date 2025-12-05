@@ -7,9 +7,6 @@
 using std::wstring;
 namespace fs = std::filesystem;
 
-// (Optionnel) Si tu veux linker automatiquement sans CMake :
-// #pragma comment(lib, "d3dcompiler.lib")
-
 static std::string Narrow(const wchar_t* w)
 {
     if (!w) return {};
@@ -21,10 +18,8 @@ static std::string Narrow(const wchar_t* w)
 
 static wstring ResolveShaderPath(const wstring& hint)
 {
-    // 1) Si le chemin donné existe tel quel, on l'utilise
     if (fs::exists(hint)) return hint;
 
-    // 2) Essaye relatif au dossier de l'exécutable
     wchar_t exePath[MAX_PATH] = {};
     ::GetModuleFileNameW(nullptr, exePath, MAX_PATH);
     fs::path exeDir = fs::path(exePath).parent_path();
@@ -32,12 +27,10 @@ static wstring ResolveShaderPath(const wstring& hint)
     fs::path cand = exeDir / hint;                 // e.g. <TargetDir>\shaders\mesh.hlsl
     if (fs::exists(cand)) return cand.wstring();
 
-    // 3) Essaye relatif au CWD (au cas où)
     fs::path cwd = fs::current_path();
     cand = cwd / hint;
     if (fs::exists(cand)) return cand.wstring();
 
-    // 4) Sinon on renvoie l'hint (D3DCompileFromFile retournera un HRESULT clair)
     return hint;
 }
 
@@ -66,7 +59,6 @@ static ComPtr<ID3DBlob> CompileFromFile(const wstring& pathHint,
             msg.assign((const char*)errors->GetBufferPointer(), errors->GetBufferSize());
         }
         else {
-            // HRESULT format + chemin tenté
             char buf[128];
             sprintf_s(buf, "HRESULT=0x%08X", (unsigned)hr);
             msg = std::string(buf) + " | file=" + Narrow(path.c_str());

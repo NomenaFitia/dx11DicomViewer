@@ -39,5 +39,3 @@ Normales : on recalcule toujours après décimation (pondération aire).
 Decimation os : si tu veux sur-protéger l’os cortical, tu peux passer une version de DecimateByCurvature qui prend un masque de sommets protégés (facile à étendre), ou simplement réduire factor côté os.
 
 Marching Cubes : décime le résultat (maillage) plutôt que le volume, c’est plus stable et plus rapide.
-
-Si tu veux une version edge-collapse (QEM) pondérée par la courbure (coût = QEM * (1 + w * curvature)), je peux te livrer un module séparé — mais pour un viewer DX11, la solution ci-dessus est souvent parfaite en pratique (simple, rapide, robuste) et se branche en 5 minutes.
