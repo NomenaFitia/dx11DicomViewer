@@ -6,7 +6,7 @@ cbuffer CBFrame : register(b0)
     row_major float4x4 View;
     row_major float4x4 Proj;
     float3 LightDir;
-    float _pad0; // lumi-re direction en WORLD 
+    float _pad0; // lumiere direction en WORLD 
 };
 cbuffer CBObject : register(b1)
 {
@@ -84,19 +84,18 @@ float4 PSMain(VSOut pin) : SV_Target
     float3 N = normalize(pin.Nv);
     float3 V = normalize(pin.V);
 
-    // Lumi�re directionnelle -> espace vue (LightDir est WORLD)
-    float3 Lw = -normalize(LightDir); // vecteur pointant vers la lumi�re
+    // Lumiere directionnelle -> espace vue (LightDir est WORLD)
+    float3 Lw = -normalize(LightDir); // vecteur pointant vers la lumiere
     float3 L = normalize(mul(float4(Lw, 0.0f), View).xyz);
 
-    // Lambert "wrap" : plus de lumi�re de dos, mais garde le model�
     float ndotl = dot(N, L);
     float diffWrapped = DiffuseWrap(ndotl, WRAP_K);
 
-    // Ambiant h�misph�rique : interpole ciel/sol selon Ny
+    // Ambiant hemispherique : interpole ciel/sol selon Ny
     float hemiT = saturate(pin.Ny * 0.5f + 0.5f); // [-1..1] -> [0..1]
     float3 hemi = lerp(GROUND_COLOR, SKY_COLOR, hemiT) * HEMI_STRENGTH;
 
-    // Sp�culaire Blinn-Phong (optionnel, doux)
+    // Speculaire Blinn-Phong (optionnel, doux)
     float3 H = normalize(L + V);
     float spec = pow(saturate(dot(N, H)), SPEC_POWER) * SPEC_STRENGTH;
 

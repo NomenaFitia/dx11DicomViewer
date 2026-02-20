@@ -2,7 +2,7 @@
 #include <vector>
 #include "Types.h"
 
-// Volume en HU (pr�t pour segmentation/isosurface)
+// Volume en HU 
 struct VolumeData
 {
     uint32_t width = 0, height = 0, depth = 0;     // Columns, Rows, #slices

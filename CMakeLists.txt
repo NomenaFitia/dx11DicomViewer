@@ -37,7 +37,15 @@ file(GLOB_RECURSE SRC_FILES CONFIGURE_DEPENDS
 # add_executable(${PROJECT_NAME} ${SRC_FILES} shaders/mesh.hlsl)
 
 # APRÈS (GUI -> wWinMain)
-add_executable(${PROJECT_NAME} WIN32 ${SRC_FILES}  "external/tinyobjloader/tiny_obj_loader.cpp" "src/core/Volume.h" "src/core/Segmentation.h" "src/core/Segmentation.cpp" "src/core/Types.h" "src/core/VolumeCleaning.h" "src/core/IsoSurfaceMC.h" "src/core/IsoSurfaceMC.cpp" "src/core/Curvature.h" "src/core/Curvature.cpp" "src/core/Decimation.h" "src/core/Decimation.cpp" "src/io/ObjExporter.h" "src/io/ObjExporter.cpp" "src/utils/MathUtils.h")
+add_executable(${PROJECT_NAME} WIN32 ${SRC_FILES}  
+"external/tinyobjloader/tiny_obj_loader.cpp" 
+"src/core/Volume.h" "src/core/Segmentation.h" 
+"src/core/Segmentation.cpp" "src/core/Types.h" 
+"src/core/VolumeCleaning.h" "src/core/IsoSurfaceMC.h" 
+"src/core/IsoSurfaceMC.cpp" "src/core/Curvature.h" 
+"src/core/Curvature.cpp" "src/core/Decimation.h" 
+"src/core/Decimation.cpp" "src/io/ObjExporter.h" 
+"src/io/ObjExporter.cpp" "src/utils/MathUtils.h")
 
 
 # Définir l'icône ou res (optionnel)

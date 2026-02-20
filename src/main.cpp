@@ -45,7 +45,7 @@ static int TestDicomLoader(const std::string& folder)
     }
 }
 
-// Petit utilitaire pour creer un cube 1x1x1 centr� (exemple)
+// Petit utilitaire pour creer un cube 1x1x1 centre (exemple)
 static MeshData MakeCube()
 {
     MeshData m;
@@ -111,7 +111,7 @@ int WINAPI wWinMain(HINSTANCE, HINSTANCE, PWSTR, int)
         SegmentationRules rules;               // seuils par d�faut (os/soft/fat)
         LabeledVolume segmentedVolume = SegmentVolumeHU(volume, rules);
 
-        // (optionnel) petit r�sum�
+        // (optionnel)
         //std::cout << "Volume : " << volume.width << " x " << volume.height << " x " << volume.depth << "\n";
         //std::cout << "Voxels : " << volume.voxels.size() << "\n";
         //std::cout << "Labels : " << segmentedVolume.labels.size() << "\n";
@@ -137,14 +137,14 @@ int WINAPI wWinMain(HINSTANCE, HINSTANCE, PWSTR, int)
 
         // Exemple d'usage Decimate
         DecimationSettings ds;
-        //ds.factor = 0.0f;           // 0.0 = pas de d�cimation, 1.0 = agressif
+        //ds.factor = 0.0f;           // 0.0 = pas de decimation, 1.0 = agressif
         //ds.protectTopPercent = 0.10f;
         //ds.cellScale = 1.0f;
 
         MeshData skinDecim = DecimateByCurvature(bone, ds);
 
 
-        // Visualiser avant / apr�s (couleurs diff�rentes)
+        // Visualiser avant / apres (couleurs differentes)
         Color3f cBefore{ 0.85f, 0.85f, 1.0f };
         Color3f cAfter{ 0.90f, 0.60f, 0.60f };
         //app.addMesh(bone, &cBefore);
@@ -163,21 +163,20 @@ int WINAPI wWinMain(HINSTANCE, HINSTANCE, PWSTR, int)
 
 
 	// Lancer l'app, mais on veut d'abord initialiser les ressources GPU :
-	// On ajoute les meshes apr�s que le device existe, i.e. � l'int�rieur de App::run().
-	// Pour concilier simplicit�, on cr�e un App, on le lance, et on injecterait
-	// normalement les donn�es via une API avant la boucle. Ici, on simule cela
-	// en modifiant App pour qu'il expose device() � d�j� fait � puis on pr�pare la sc�ne.
+	// On ajoute les meshes apres que le device existe, i.e. a l'interieur de App::run().
+	// Pour concilier simplicite, on cree un App, on le lance, et on injecterait
+	// normalement les donnees via une API avant la boucle.
 
 
-	// Au plus simple : on d�marre l'app puis on y ajoute les meshes via un callback
-	// � Pour cette d�mo, on les ajoutera dans App::run() avant la boucle si n�cessaire.
+	// Au plus simple : on demarre l'app puis on y ajoute les meshes via un callback
+	// Pour cette demo, on les ajoutera dans App::run() avant la boucle si necessaire.
 
 
 	// Variante : on ajoute ici en deux temps en exploitant l'API publique:
-	// (On va d�marrer l'app et, pour l'exemple, on pousse les meshes tout de suite apr�s cr�ation du device.)
+	// (On va démarrer l'app et, pour l'exemple, on pousse les meshes tout de suite après creation du device.)
 
 
-	// Simplification : on appelle directement run(), et si vous avez d�j� vos MeshData,
+	// Simplification : on appelle directement run(), et si vous avez déjà vos MeshData,
 	// adaptez App pour les ajouter juste apres initialize().
 
     Color3f c0{ 1.0f, 0.9f, 0.95f };
@@ -195,7 +194,7 @@ int WINAPI wWinMain(HINSTANCE, HINSTANCE, PWSTR, int)
 
 /*
 NB: pour un flux reel, 
-exposez une fonction 
+exposer une fonction 
 App::loadMeshes(const std::vector<std::pair<MeshData, std::optional<Color3f>>>&) 
 et appelez-la apres renderer.initialize(...).
 */

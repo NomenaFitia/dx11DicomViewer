@@ -15,7 +15,7 @@ public:
     // Charge un Vertex Shader + InputLayout
     // - path : ex. L"shaders/mesh.hlsl"
     // - layout/count : doit matcher les semantics du VS (POSITION, NORMAL, etc.)
-    // - entry : point d'entree HLSL (par d�faut "VSMain")
+    // - entry : point d'entree HLSL (par defaut "VSMain")
     static VS LoadVS(ID3D11Device* dev, const std::wstring& path,
         const D3D11_INPUT_ELEMENT_DESC* layout, UINT count,
         const char* entry = "VSMain");
