@@ -2,7 +2,7 @@
 
 Ce projet permet la reconstruction 3D à partir de séries d’images DICOM (scanner pour notre cas), l’extraction de maillages surfaciques et la visualisation interactive des volumes médicaux.
 
-__**NB:**__  Le projet a été effectué dans le cadre d'un stage de fin d'études, j'ai créé une autre version [ici](https://github.com/NomenaFitia/QtDicomViewer) en utilisant __**C++**__ ,__**Qt**__, __**OpenGL**__ .
+__**NB:**__  Le projet a été effectué dans le cadre d'un stage de fin d'études et n'est plus maintenue.
 
 ---
 ### Fonctionnalités
